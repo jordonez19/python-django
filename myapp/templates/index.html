@@ -1,0 +1,18 @@
+{% extends './layouts/base.html' %}
+
+{% block content %}
+<div class="container">
+
+    <h1> Welcome to DJANGO yep </h1>
+    <h2>{{title}}</h2>
+    <h2>{{name}}</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error est dignissimos quaerat possimus sapiente?
+        Libero,
+        sapiente? Vero reprehenderit voluptas ea non pariatur aut eligendi recusandae doloremque eaque. Quidem,
+        distinctio
+        dicta?</p>
+    {% load static %}
+    <img width="150" src="{% static 'image.png' %}" alt="">
+</div>
+
+{% endblock %}
