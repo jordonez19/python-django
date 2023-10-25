@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+
+<body>
+    <div class="bg-cotizacion page-break-before">
+        {% load static %}
+        <img src="{% static 'quote-virtual.png' %}" alt="">
+        <div class="header-client abosulte">
+            <p><b>Señores</b></p>
+            <p>Nombre del Cliente</p>
+            <p><b>Atn: </b> Nombre del Encargado</p>
+            <p><b>Fecha: </b> 24 de octubre de 2023</p>
+            <p><b>Ciudad: </b> Tu Ciudad</p>
+            <p><b>Referencia: </b> Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, porro!</p>
+            <p><b>Fecha y horario estimado: </b> 24 de octubre de 2023 - 4:10pm <b class="left-10">Cantidad de unidades:
+                </b> 25</p>
+        </div>
+        <div class="header-date abosulte">
+            <p class="left-50">Bogota 24 de Oct 2023</p>
+            <p class="left-25">Cotizacion GNB123456</p>
+            <p class="left-0"><b>Fecha:</b> 24 de octubre de 2023</p>
+        </div>
+    </div>
+
+    <div class="bg-cotizacion page-break-after">
+        {% load static %}
+        <img src="{% static 'membrete-bg.png' %}" alt="">
+    </div>
+    <div class="bg-cotizacion page-break-after">
+        {% load static %}
+        <img src="{% static 'membrete-bg.png' %}" alt="">
+    </div>
+</body>
+
+</html>

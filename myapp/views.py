@@ -1,71 +1,32 @@
-
-
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from .models import Project, Task
-from django.shortcuts import get_object_or_404, render, redirect
-from .forms import CreateNewTask, CreateNewProject
-# Create your views here.
+from django.http import HttpResponse
+import pdfkit
 
-def index(request):
-    title = "My first project"
-    return render(request, 'index.html', {
+def generate_pdf(request):
+    # Render the HTML template
+    context = {}  # Define your context data
 
-        'title': title,
-        'name': 'Javi'
+    # Use the template name directly, without the path
+    html_template = 'pdf.html'
 
-        })
-    #return HttpResponse("<h2>index </h2>" )
+    html = render(request, html_template, context).content
 
-def about(request):
-    return render(request, 'about.html')
-    #return HttpResponse("<h2>About page</h2>")
+    # Configure PDF options
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0mm',
+        'margin-right': '0mm',
+        'margin-bottom': '0mm',
+        'margin-left': '0mm',
+    }
 
-def hello(request, username):
-    return HttpResponse("<h2>Hello %s </h2>" % username )
+    # Specify the path to wkhtmltopdf executable
+    config = pdfkit.configuration(wkhtmltopdf='/path/to/wkhtmltopdf')
 
-def projects(request):
-    projects = Project.objects.all()
-    return render(request, 'projects/projects.html',{
-        'projects': projects
-    })
+    # Convert HTML to PDF using the specified configuration
+    pdf = pdfkit.from_string(html, False, configuration=config, options=options)
 
-    projects = list(Project.objects.values())
-    return JsonResponse(projects, safe=False)
-
-def tasks(request):
-    task = Task.objects.all()
-    return render(request, 'tasks/task.html',{"tasks": task})
-
-    #task = get_object_or_404(Task, title=title)
-    task = Task.objects.get(title=title)
-    return HttpResponse("<h2>tasks: %s </h2> " % task.title)
-    task = Task(title="New Task", description="New Description")
-    task.save()
-    return HttpResponse("<h2>Task created</h2>")
-
-def createTask(request):
-    if(request.method == 'GET'):
-        return render(request, 'tasks/create_task.html',{ "form": CreateNewTask() })
-    else:
-        Task.objects.create(
-            title=request.POST.get('title'), 
-            description=request.POST.get('description'), 
-            project_id=3
-        )
-        render(request, 'tasks/create_task.html',{ "form": CreateNewTask() })
-        return redirect('tasks')
-
-def createProject(request):
-    if(request.method == 'GET'):
-        return render(request, 'projects/create_projects.html',{'form': CreateNewProject()})
-    else:
-        Project.objects.create(
-            name= request.POST.get('name'),
-            description = request.POST.get('description')
-        )
-        render(request, 'projects/create_projects.html',{'form':CreateNewProject()})
-        return redirect('projects')
-
-
-    
+    # Return the PDF as a response
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="cotizacion.pdf"'
+    return response
